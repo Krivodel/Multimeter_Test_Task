@@ -2,7 +2,7 @@ namespace Project
 {
     public class ACVoltageMode : MultimeterMode
     {
-        public override float Calculate(IDevice device)
+        protected override float OnCalculate(IDevice device)
         {
             return 0.01f;
         }

@@ -244,9 +244,8 @@ MonoBehaviour:
   _multimeterRegulator: {fileID: 114081478}
   _multimeterRegulatorActivator: {fileID: 1605253102}
   _multimeterRegulatorTwister: {fileID: 114081480}
-  _multimeterResultTexts:
-  - {fileID: 1001089037}
-  - {fileID: 2088519757}
+  _multimeterAllResultsText: {fileID: 2088519757}
+  _multimeterCurrentModeResultText: {fileID: 1001089040}
 --- !u!114 &114081480
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -552,7 +551,7 @@ GameObject:
   - component: {fileID: 1001089036}
   - component: {fileID: 1001089039}
   - component: {fileID: 1001089038}
-  - component: {fileID: 1001089037}
+  - component: {fileID: 1001089040}
   m_Layer: 0
   m_Name: Result - Text
   m_TagString: Untagged
@@ -580,20 +579,6 @@ RectTransform:
   m_AnchoredPosition: {x: 0, y: 0.05177}
   m_SizeDelta: {x: 20, y: 5}
   m_Pivot: {x: 0.5, y: 0.5}
---- !u!114 &1001089037
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1001089035}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: ea6e2864e1258e74b882f14cdaa062d9, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  _fullFormat: '{V}'
-  _emptyFormat: '{V}'
 --- !u!114 &1001089038
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -728,6 +713,18 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
+--- !u!114 &1001089040
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1001089035}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 40a6dc6b127f3cd4d86abb3a59e6304e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &1111617555
 GameObject:
   m_ObjectHideFlags: 0
@@ -986,8 +983,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ea6e2864e1258e74b882f14cdaa062d9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _fullFormat: '{K} = {V}'
-  _emptyFormat: '{V}'
 --- !u!114 &2088519758
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1008,7 +1003,13 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: '? = 1000,00'
+  m_text: '? = 1000,00
+
+    ? = 1000,00
+
+    ? = 1000,00
+
+    ? = 1000,00'
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
   m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
@@ -1043,7 +1044,7 @@ MonoBehaviour:
   m_fontSizeMax: 72
   m_fontStyle: 0
   m_HorizontalAlignment: 1
-  m_VerticalAlignment: 512
+  m_VerticalAlignment: 1024
   m_textAlignment: 65535
   m_characterSpacing: 0
   m_wordSpacing: 0

@@ -5,30 +5,38 @@ namespace Project
 {
     public class Multimeter : MonoBehaviour
     {
-        public MultimeterMode Mode => _mode;
+        public MultimeterMode CurrentMode => _currentMode;
 
-        public event Action<MultimeterMode> ModeChanged;
-        public event Action<float> ResultChanged;
+        public event Action Ticked;
+        public event Action<MultimeterMode> CurrentModeChanged;
 
-        private MultimeterMode _mode;
+        private MultimeterModePool _modePool;
+        private MultimeterMode _currentMode;
         private IDevice _device;
 
-        public void SetMode(MultimeterMode mode)
+        public void Construct(MultimeterModePool modePool)
+        {
+            _modePool = modePool;
+        }
+
+        public void SetCurrentMode(MultimeterMode mode)
         {
             if (mode == null)
                 throw new ArgumentNullException(nameof(mode));
 
-            if (_mode == mode)
+            if (_currentMode == mode)
                 throw new InvalidOperationException($"Mode '{mode}' already selected.");
 
-            _mode = mode;
+            _currentMode = mode;
 
-            ModeChanged?.Invoke(_mode);
+            CurrentModeChanged?.Invoke(_currentMode);
+
+            OnTicked();
         }
 
-        public void SetMode<TMode>() where TMode : MultimeterMode, new()
+        public void SetCurrentMode<TMode>() where TMode : MultimeterMode, new()
         {
-            SetMode(new TMode());
+            SetCurrentMode(_modePool.Get<TMode>());
         }
 
         public void ConnectDevice(IDevice device)
@@ -40,6 +48,8 @@ namespace Project
                 throw new InvalidOperationException("Cannot connect 2+ devices.");
 
             _device = device;
+
+            OnTicked();
         }
 
         public void DisconnectDevice()
@@ -48,6 +58,8 @@ namespace Project
                 throw new InvalidOperationException("Device not connected.");
 
             _device = null;
+
+            OnTicked();
         }
 
         public bool HasDevice()
@@ -55,11 +67,38 @@ namespace Project
             return _device != null;
         }
 
-        private void Update()
+        public bool HasCurrentMode()
         {
-            float result = _mode.Calculate(_device);
+            return _currentMode != null;
+        }
 
-            ResultChanged?.Invoke(result);
+        public bool CanTick()
+        {
+            return HasDevice() && HasCurrentMode();
+        }
+
+        public float GetResult(MultimeterMode mode)
+        {
+            if (mode == null)
+                throw new ArgumentNullException(nameof(mode));
+
+            return mode.Calculate(_device);
+        }
+
+        public float GetResult()
+        {
+            return GetResult(_currentMode);
+        }
+
+        public float GetResult<TMode>() where TMode : MultimeterMode, new()
+        {
+            return GetResult(_modePool.Get<TMode>());
+        }
+
+        private void OnTicked()
+        {
+            if (CanTick())
+                Ticked?.Invoke();
         }
     }
 }

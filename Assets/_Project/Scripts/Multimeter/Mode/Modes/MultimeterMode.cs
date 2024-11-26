@@ -1,3 +1,5 @@
+using System;
+
 namespace Project
 {
     public abstract class MultimeterMode
@@ -14,7 +16,15 @@ namespace Project
             return GetType().GetHashCode();
         }
 
-        public abstract float Calculate(IDevice device);
+        public float Calculate(IDevice device)
+        {
+            if (device == null)
+                throw new ArgumentNullException(nameof(device));
+
+            return OnCalculate(device);
+        }
+
+        protected abstract float OnCalculate(IDevice device);
 
         public static bool operator ==(MultimeterMode a, MultimeterMode b)
         {

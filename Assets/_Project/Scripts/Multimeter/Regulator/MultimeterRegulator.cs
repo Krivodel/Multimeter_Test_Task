@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Events;
 using UnityEngine.InputSystem;
@@ -15,7 +16,7 @@ namespace Project
         private MultimeterModeSelector _modeSelector;
         private bool _isActive;
 
-        public void Construct(GameInput input, Multimeter multimeter, MultimeterMode[] availableModes)
+        public void Construct(GameInput input, Multimeter multimeter, IEnumerable<MultimeterMode> availableModes)
         {
             _input = input;
             _multimeter = multimeter;
@@ -70,7 +71,7 @@ namespace Project
 
         private void OnModeSelected(MultimeterMode mode)
         {
-            _multimeter.SetMode(mode);
+            _multimeter.SetCurrentMode(mode);
         }
     }
 }

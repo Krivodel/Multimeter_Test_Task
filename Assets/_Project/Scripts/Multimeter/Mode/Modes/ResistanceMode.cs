@@ -4,7 +4,7 @@ namespace Project
     {
         private readonly DCVoltageMode _dcVoltageMode = new();
 
-        public override float Calculate(IDevice device)
+        protected override float OnCalculate(IDevice device)
         {
             var dcVoltage = _dcVoltageMode.Calculate(device);
 

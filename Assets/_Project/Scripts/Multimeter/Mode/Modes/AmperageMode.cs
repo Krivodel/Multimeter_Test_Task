@@ -6,7 +6,7 @@ namespace Project
     {
         private readonly ResistanceMode _resistanceMode = new();
 
-        public override float Calculate(IDevice device)
+        protected override float OnCalculate(IDevice device)
         {
             return Mathf.Sqrt(device.Power / _resistanceMode.Calculate(device));
         }

@@ -1,5 +1,3 @@
-using System;
-using System.Collections.Generic;
 using UnityEngine;
 
 namespace Project
@@ -9,23 +7,23 @@ namespace Project
         [SerializeField] private Transform _transform;
         [SerializeField] private Vector3 _axis = new(0f, 1f, 0f);
 
-        private Dictionary<MultimeterMode, float> _multimeterModeAngleMap;
+        private MultimeterModeMap<float> _multimeterModeAngleMap;
         private Multimeter _multimeter;
 
-        public void Construct(Multimeter multimeter, Dictionary<MultimeterMode, float> multimeterModeAngleMap)
+        public void Construct(Multimeter multimeter, MultimeterModeMap<float> multimeterModeAngleMap)
         {
             _multimeter = multimeter;
             _multimeterModeAngleMap = multimeterModeAngleMap;
 
-            _multimeter.ModeChanged += OnModeChanged;
+            _multimeter.CurrentModeChanged += OnCurrentModeChanged;
         }
 
         private void OnDestroy()
         {
-            _multimeter.ModeChanged -= OnModeChanged;
+            _multimeter.CurrentModeChanged -= OnCurrentModeChanged;
         }
 
-        private void OnModeChanged(MultimeterMode mode)
+        private void OnCurrentModeChanged(MultimeterMode mode)
         {
             Vector3 eulerAngles = _axis.normalized * GetAngle(mode);
 
@@ -34,10 +32,7 @@ namespace Project
 
         private float GetAngle(MultimeterMode mode)
         {
-            if (!_multimeterModeAngleMap.TryGetValue(mode, out var angle))
-                throw new NotImplementedException($"Angle for mode '{mode}' not implemented.");
-
-            return angle;
+            return _multimeterModeAngleMap.Get(mode);
         }
     }
 }
